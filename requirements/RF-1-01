@@ -1,0 +1,21 @@
+Requirement
+ID:
+RF-1-01
+Type/Category:
+Funcional
+Version:
+1.0
+Title:
+Càlcul del cost de la oferta
+Description:
+Per a les ofertes de comandes que s'ofereixen a l'usuari caldrà calcular el cost
+total de la comanda. Això inclou el valor individual de cada producte juntament
+amb la quantitat. També el cost del transport calculat per servir-lo segons els
+transportistes i rutes disponibles. Així com els impostos que siguin d'aplicació
+(IVA). S'oferirà a l'usuari la informació desglosada i el valor total. Els valors de les
+ofertes no es poden modificar una vegada calculats.
+Relations:
+Sense completar (pending)
+Comments:
+El cost del transport serà vàlid durant el temps que l'oferta sigui vàlida.
+Qualsevol recàlcul en el transport implica generar una nova oferta.
