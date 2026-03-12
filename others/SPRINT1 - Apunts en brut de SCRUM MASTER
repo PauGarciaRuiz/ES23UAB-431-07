@@ -1,0 +1,22 @@
+Documents: Tots els arxius generats per lliurar (deliverables) hauran d’estar en format PDF i en format editable. El nom dels arxius hi serà el mateix per cada format
+
+Requisits: Per a cada requisit cal utilitzar un arxiu diferent i aquest ha de tenir el nom “.md” (exemple: RNF-8-01.md).
+
+En el camp dels requisits relacionats (Relations) caldrà incloure l’identificador i la URL relativa (enllaç) a l’arxiu corresponent (per a poder-lo consultar fent un clic). 
+
+
+General: Tots els arxius han de ser individuals. Això permetrà fer un seguiment (tracking) de les diferents versions com si es tractés de codi font.
+
+
+HACER:
+
+TRELLO CREADO: Pongo estas tascas 
+
+Crear repositiori gIt -> PAU
+Organizo a mis compañeros a hacer els requeriments: PAU + OSCAR
+
+Otro para hacer el README, descriptivo del proyecto en la raiz -> GUILLEM
+
+Documento de requisitos
+
+Actes de reunions: meeting-.md”
