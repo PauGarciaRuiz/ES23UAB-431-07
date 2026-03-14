@@ -1,8 +1,8 @@
 # Requirement
 ### ID:
-RF-AC-04
+RNF-AC-02
 ### Type/Category:
-Funcional
+NO Funcional / Decisió de disseny
 ### Version:
 1.0
 ### Title:
