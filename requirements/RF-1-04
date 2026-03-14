@@ -1,0 +1,21 @@
+# Requirements Template
+### ID: 
+RF-1-04
+
+### Type/Category:
+Funcional 
+
+### Version: 
+1.0
+
+### Title: 
+Restriccions de la contrasenya de registre
+
+### Description: 
+A l'hora de registrar-se usant un compte de correu, la contrasenya definida per l'usuari haurà de tenir 8 caràcters com a mínim. A més, serà imprescindible usar dues majúscules i almenys dos caràcters especials.
+
+### Relations: 
+[RF-1-01.md](RF-1-01.md)
+
+### Comments: 
+Aquesta validació no aplica si l'usuari accedeix mitjançant les dreceres de Gmail o Outlook.
