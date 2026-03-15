@@ -10,5 +10,5 @@ Logo i color corporatiu en l'app
 ### Description:
 L'aplicació tindrà el color corporatiu taronja i el logo ha de ser visible sempre.
 ### Relations:
-Sense completar (pending)
+Cap
 ### Comments:
