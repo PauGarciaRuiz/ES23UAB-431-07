@@ -28,6 +28,6 @@ El repositori s'organitza seguint les directrius obligatòries de l'assignatura:
 ## 🛠️ Eines de Gestió i Metodologia
 Seguim la metodologia **SCRUM** per al desenvolupament iteratiu i incremental del software:
 * **Gestió de tasques**: [Tauler de Trello - Sprint 1](https://trello.com/b/IqMwV1QF/1-sprint)
-* **Seguiment**: [Burn-down Chart]((https://docs.google.com/spreadsheets/d/1gHTuWa7U7nXr9_ECxne4Kr2t5Xuv3Hp5/edit?usp=sharing&ouid=115001902340941372636&rtpof=true&sd=true))
+* **Seguiment**: [Burn-down Chart](https://docs.google.com/spreadsheets/d/1gHTuWa7U7nXr9_ECxne4Kr2t5Xuv3Hp5/edit?usp=sharing&ouid=115001902340941372636&rtpof=true&sd=true)
 * **Modelat**: Diagrames UML mitjançant PlantUML.
 
