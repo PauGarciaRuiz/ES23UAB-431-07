@@ -10,6 +10,6 @@ Funcional
 ### Description:
 L'app només podrá ser utilitzada a l'Àrea metropolitana de Barcelona.
 ### Relations:
-Sense completar (pending)
+[RNF-3-01](RNF-3-01.md)
 ### Comments:
 Aquesta es una proposta de la fase inicial, en versions més avançades pot canviar.
