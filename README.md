@@ -7,8 +7,8 @@ Aquest repositori conté el desenvolupament de la plataforma **QueMenges**, una 
 ## 👥 Equip de Desenvolupament (Grup 07)
 * **David Caballero Ogazón**: Scrum Master. Responsable del document d'especificacions i seguiment del projecte.
 * **Guillem Capel Solé**: Responsable de Documentació. Gestió del README i definició del Product Backlog.
-* **Pau García Ruiz**: Desenvolupador. Responsable de la creació i gestió del repositori Git i Requisits del Grup 1 al 3.
-* **Oscar Marcos Ruiz**: Desenvolupador. Gestió i revisió de la llista formal de requisits.
+* **Pau García Ruiz**: Desenvolupador. Responsable de la creació i gestió del repositori Git i Requisits del Grup 1,2 i 5.
+* **Oscar Marcos Ruiz**: Desenvolupador. Gestió i revisió de la llista formal de requisits i Requisits del Grup 3,6 i Altres Consideracions.
 
 ## 🚀 Descripció del Projecte
 QueMenges és una plataforma que permet als usuaris oferir els seus propis plats i receptes, fugint del model de les grans cadenes de restauració. L'aplicació permet:
