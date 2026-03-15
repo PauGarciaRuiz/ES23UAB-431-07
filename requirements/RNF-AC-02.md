@@ -10,5 +10,5 @@ Format Lletra app
 ### Description:
 L'aplicació utilitzarà el tipus de lletra Calibri per tot el text.
 ### Relations:
-Sense completar (pending)
+Cap
 ### Comments:
