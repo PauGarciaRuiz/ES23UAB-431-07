@@ -7,7 +7,7 @@ Aquest repositori conté el desenvolupament de la plataforma **QueMenges**, una 
 ## 👥 Equip de Desenvolupament (Grup 07)
 * **David Caballero Ogazón**: Scrum Master. Responsable del document d'especificacions i del seguiment i organització del projecte.
 * **Guillem Capel Solé**: Responsable de Documentació. Gestió del README i definició del Product Backlog.
-* **Pau García Ruiz**: Desenvolupador. Responsable de la creació i gestió del repositori Git i Requisits del Grup 1,2 i 5.
+* **Pau García Ruiz**: Desenvolupador. Responsable de la creació i gestió del repositori Git i Requisits del Grup 1,2, 4 i 5.
 * **Oscar Marcos Ruiz**: Desenvolupador. Gestió i revisió de la llista formal de requisits i Requisits del Grup 3,6 i Altres Consideracions.
 
 ## 🚀 Descripció del Projecte
