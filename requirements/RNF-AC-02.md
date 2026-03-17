@@ -1,6 +1,6 @@
 # Requirement
 ### ID:
-RNF-AC-01
+RNF-AC-02
 ### Type/Category:
 NO Funcional / RIE (Requisit d'interfície externa) (Interacció amb altres mòduls de SW)
 ### Version:
