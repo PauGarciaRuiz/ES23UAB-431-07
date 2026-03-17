@@ -10,7 +10,7 @@ Temps de resposta
 ### Description:
 L'aplicació tindrà un temps de resposta màxim de 5 ms.
 ### Relations:
-[RNF-AC-04](RNF-AC-04.md)
+[RNF-AC-05](RNF-AC-05.md)
 ### Comments:
 No es l'única limitació de rendiment.
 És un requisit de la fase inicial, es pot canviar més endavant si l'app és molt exitosa.
