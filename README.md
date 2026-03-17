@@ -12,7 +12,7 @@ Aquest repositori conté el desenvolupament de la plataforma **QueMenges**, una 
 
 ## 🚀 Descripció del Projecte
 QueMenges és una plataforma que permet als usuaris oferir els seus propis plats i receptes, fugint del model de les grans cadenes de restauració. L'aplicació permet:
-* Registre de rols (client, cuiner o repartidor).
+* Registre de rols (usuari convidat, usuari registrat, cuiner, repartidor o comprador).
 * Gestió de comandes amb filtres per restriccions alimentàries.
 * Pagament integrat mitjançant targeta o PayPal.
 * Sistema de valoració per posicionar els millors cuiners segons puntualitat i estat del menjar.
