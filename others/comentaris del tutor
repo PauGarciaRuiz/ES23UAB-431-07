@@ -1,0 +1,16 @@
+FEEDBACK PRESENTACION:
+RF-AC-02: Es NO Funcional.
+RF-2-08: Es NO-FUNCIONAL
+RNF-4-01: Se puede Fusionar con RF-4-01. En teoria seria no funcional (Segun presentacion Titos).
+(Creo que ha dicho algo de fusionar el 5-02 o ponerlo en RNF pero no le veo mucho sentido).
+RF-1-03: NO FUncional (- Requisitos del grupo 1 las contraseñas y esto son no funcionales)
+-Que-menges no es un perfil.
+
+-Tiene que haber un perfil usuario general (Para el login y tal).También tiene que haber un usuario no registrado (5 perfiles en total).
+
+Modificamos el burndown para el jueves? 
+
+-Habría que ordenar los requisitos de la presentación por perfil (los requisitos los cumple alguien, por ejemplo: el cliente ve los platos de los cocineros).
+
+
+-El sprint empieza el dia que acaba el otro sprint (En este caso era el lunes creo). Este sprint realmente acaba este domingo (Siempre acaba el domingo de la semana del sprint review para poder implementar el feedback)
