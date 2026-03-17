@@ -2,7 +2,7 @@
 ### ID:
 RF-AC-01
 ### Type/Category:
-Funcional
+No Funcional (Decisió de Diseny)
 ### Version:
 1.0
 ### Title:
