@@ -1,6 +1,6 @@
 # Requirement
 ### ID:
-RNF-AC-05
+RNF-AC-06
 ### Type/Category:
 NO Funcional / Requisit de rendiment (dinàmic)
 ### Version:
