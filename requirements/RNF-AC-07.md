@@ -1,6 +1,6 @@
 # Requirement
 ### ID:
-RNF-AC-06
+RNF-AC-07
 ### Type/Category:
 NO Funcional / Decisió de disseny
 ### Version:
