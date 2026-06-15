@@ -1,7 +1,19 @@
 @startuml
+left to right direction
+
 ' --- ENUMS ---
-enum EstatComanda
-enum ModalitatEntrega
+enum EstatComanda {
+  EN_PREPARACIO
+  EN_CAMI
+  LLESTA_PER_RECOLLIDA
+  REALITZADA
+}
+
+enum ModalitatEntrega {
+  RECOLLIDA
+  DOMICILI
+  ENTREGA_CUINER
+}
 
 ' --- CAPA BOUNDARY (INTERFÍCIES DE LÍMIT / SERVEIS EXTERNS) ---
 class InterfUsuaris <<boundary>> {
@@ -47,6 +59,12 @@ class InterfUsuaris <<boundary>> {
   + seleccionarIdioma(nouIdioma)
   + desarPreferenciaLocal(nouIdioma)
   + actualitzarTextosPantalla(diccionariTextos)
+  + seleccionarSubscripcioOpcional()
+  + pagarSubscripcio()
+  + mostrarInfoSubscripcio()
+  + demanarMetodePagament()
+  + mostrarErrorPagament()
+  + mostrarSubscripcioActiva()
 }
 
 class InterfComandes <<boundary>>{
@@ -54,17 +72,46 @@ class InterfComandes <<boundary>>{
   + obtenir_plats_desitjats()
   + acceptar_plat(plat)
   + rebutjar_plat(plat)
-  + iniciar_chat
+  + iniciar_chat()
   + accedir_notificacio()
   + obrir_menu_comandes()
   + tancar_comanda(comanda)
-  + iniciar_xat()
   + acceptar_comanda(comanda)
   + realiitzar_comanda()
   + afegir_pagament(metode_pagament)
   + afegir_direccio(direccio)
   + finalitzar_comanda(comanda)
   + abortar_comanda(comanda)
+  + veureComandesAnteriors()
+  + mostrarLlistaComandes()
+  + seleccionarComanda()
+  + mostrarDetallsComanda()
+  + errorHistorialBuit()
+  + ordenarLlista(criteri)
+  + afegirPlatAlCarret()
+  + accedirCarret()
+  + treurePlat()
+  + procedirComanda()
+  + mostrarResumIPreu()
+  + demanarActualitzarCarret()
+  + mostrarAvisITornar()
+  + iniciarSeleccioEntrega()
+  + modificarIngredients()
+  + errorNoIngredients()
+  + continuarPagament()
+  + pagarComanda()
+  + mostrarPreuFinal(preuFinal)
+  + errorPagament()
+  + confirmacioIPresentarFactura()
+  + seleccionarPuntuarComanda()
+  + confirmarValoracio(puntuacio, comentari)
+  + mostrarFormulari()
+  + errorCampsBuits()
+  + mostrarAgraimentITornar()
+  + seleccionarModalitat()
+  + mostrarModalitat()
+  + errorNoRepartidors()
+  + errorNoAdreca()
 }
 
 class InterfComunicacio <<boundary>>
@@ -90,6 +137,7 @@ class InterfMaps <<boundary>> {
 class InterfPagament <<boundary>> {
   + cancellarSubscripcio()
   + confirmar_metode()
+  + demanarPagament()
 }
 
 class InterfCuiner <<boundary>> {
@@ -139,6 +187,8 @@ class GestorUsuaris <<control>> {
   + identificarCompte(correu)
   + validarSeleccioRol(rol)
   + validaUbicacio()
+  + seleccionarSubscripcio()
+  + pagarSubscripcio()
 }
 
 class GestorComandes <<control>>{
@@ -157,7 +207,19 @@ class GestorComandes <<control>>{
   + comprovar_disponibilitat()
   + validar_pagament(metode_pagament)
   + validar_adreça(adreça)
-
+  + obtenirComandesAnteriors()
+  + demanarDetallsComanda()
+  + ordenarComandes(criteri)
+  + afegirPlat()
+  + obtenirResumComanda()
+  + eliminarPlat()
+  + confirmarCarret()
+  + calcularPreuFinal()
+  + processarPagament()
+  + iniciarPuntuacio()
+  + validarIGuardarValoracio(puntuacio, comentari)
+  + procedirComanda()
+  + seleccionarModalitat()
 }
 
 class GestorComunicacio <<control>>
@@ -170,7 +232,7 @@ class GestorCataleg <<control>> {
   + obtenirDetalls(id)
   + confirmacio_revisio(revisio)
   + mostrar_alerta()
-  + mostrar_missatge
+  + mostrar_missatge()
   + tancar_menu(menu)
   + vincular_alergens(ingredient)
 }
@@ -178,10 +240,14 @@ class GestorCataleg <<control>> {
 class GestorMaps <<control>> {
   + solicitarDistancia(ubicacioUsuari, llistaUbicacions)
   + validar_adreça(adreça)
+  + calcularDistancia(origen, desti)
 }
 
 class GestorPagament <<control>>{
   + validar_pagament(metode_pagament)
+  + gestionarPagament()
+  + transaccioDenegada()
+  + transaccioExitosa()
 }
 
 class GestorOAuth <<control>> {
@@ -204,6 +270,7 @@ class GestorCuiner <<control>> {
 
 ' --- CAPA ENTITAT (CLASSES DE DOMINI) ---
 class DadesUsuariRegistrat <<entity>> {
+  - idUsuari : String
   - nom : String
   - contrasenya : String
   - correu : String
@@ -211,6 +278,7 @@ class DadesUsuariRegistrat <<entity>> {
   - restriccions : String
   - subscripcioActiva : Boolean
   - rolActiu : String
+  - metodePagamentVinculat : String
   + getDades()
   + comprovarNom(nom)
   + actualitzarDades(nom, pass, ubicacio, restriccions)
@@ -225,37 +293,97 @@ class DadesUsuariRegistrat <<entity>> {
   + comprovarCredencials(correu, contrasenya)
   + obtenirDades(correu)
   + comprovarUbicacioCompte()
+  + comprovarMetodePagament()
+  + activarSubscripcio()
 }
 
-class DadesComprador <<entity>>
+class DadesComprador <<entity>> {
+  - puntsAcumulats : int
+  - historialComandes : List<Comanda>
+  + consultarPunts()
+}
+
 class DadesRepartidor <<entity>>
 
 class DadesCuiner <<entity>> {
+  - valoracioMitjana : double
+  - comandesActives : List<Comanda>
   + getUbicacions()
   + getValoracioCuiner()
   + retornar_estats()
 }
 
 class Comanda <<entity>>{
+  - idComanda : String
+  - dataComanda : Date
+  - preuTotal : double
+  - estatActual : EstatComanda
+  - modalitat : ModalitatEntrega
+  - llistaPlats : List<Plat>
+  - llistaMenus : List<Menú>
+  - tempsEstimatEntrega : int
   + revisar_ingredients(comanda)
   + confirmar_validacio()
+  + buscarComandesUsuari()
+  + obtenirDetalls()
+  + desarAlCarret()
+  + obtenirDetallsIPreu()
+  + actualitzarCarret()
+  + comprovarEstatCarret()
+  + modificarIngredientsPlat()
+  + comprovarEstat()
+  + demanarModalitat()
+  + setModalitat()
+  + calcularPreuTotal()
+  + actualitzarEstat(EstatComanda estatActualitzat)
 }
-class Valoracio <<entity>>
+
+class Valoracio <<entity>> {
+  - idValoracio : String
+  - dataValoracio : Date
+  - puntuacio : int
+  - comentari : String
+  + crearValoracio(puntuacio, comentari)
+}
+
 class Xat <<entity>>{
   - id : String
   - data_inici : String
+  - llistaMissatges : List<Missatge>
   + repondre()
 }
-class Missatge <<entity>>
+
+class Missatge <<entity>> {
+  - idMissatge : String
+  - dataEnviament : Date
+  - contingut : String
+}
 
 class Menú <<entity>> {
   - id : String
+  - nom : String
   - descripcio : String
+  - preuMenu : double
+  - platsMenu : List<Plat>
   + getMenus()
 }
 
-class Plat <<entity>>
-class Ingredient <<entity>>
+class Plat <<entity>> {
+  - idPlat : int
+  - nom : String
+  - preu : double
+  - disponible : boolean
+  - llistaIngredients : List<Ingredient>
+  + comprovarDisponibilitat()
+  + buscarPlat()
+}
+
+class Ingredient <<entity>> {
+  - idIngredient : String
+  - nom : String
+  - alergen : boolean
+  - opcional : boolean
+}
 
 ' --- RELACIONS DE LES CAPES (BOUNDARY -> CONTROL -> ENTITY) ---
 
