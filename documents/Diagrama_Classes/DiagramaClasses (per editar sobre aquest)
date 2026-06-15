@@ -112,29 +112,35 @@ class InterfComandes <<boundary>> {
   + mostrarModalitat()
   + errorNoRepartidors()
   + errorNoAdreca()
-  ' Mètodes afegits dels Diagrames de Seqüència de Repartiment:
+  ' Sincronitzats amb els teus diagrames visuals (imatges adjuntes):
   + accedirSeccioComandesPendents()
-  + demanarUbicacioGPS(): String
+  + demanarUbicacioGPS()
   + mostrarLlistaOrdenada(llistaComandesFiltrada)
   + refrescarInterficie()
-  + confirmarAcceptacio(idComanda: String)
+  + seleccionarComandaMètode(idComanda)
+  + confirmarAcceptacio(idComanda)
   + retirarComandaDeLaLlista()
-  + premerVeureRuta(idComanda: String)
+  + premerComandaRecollida()
+  + registrarRecollida()
+  + gestionarFinalitzacioEntrega()
+  + premerFinalitzarEntrega(idComanda)
+  + marcarIntentEntregaFallit(idComanda)
+  + marcarCancel·larEntrega(idComanda)
+  + premerVeureRuta(idComanda)
   + mostrarInterficieMapa(dadesRutaOptima)
   + actualitzarIndicacions(novaRutaRecalculada)
   + refrescarMapaIndicacions()
-  + premerFinalitzarEntrega(idComanda: String)
-  + marcarIntentEntregaFallit(idComanda: String)
-  + marcarCancel·larEntrega(idComanda: String)
-  + seleccionarComandaActiva(idComanda: String)
+  + seleccionarComandaActiva(idComanda)
   + carregarMapaSeguiment(ubicacioRepartidor, tempsEstimat)
   + actualitzarPosicioMapa(novaUbicacio, nouTempsEstimat)
   + tancarSeguimentIMostrarConfirmacio()
+  + mostrarPantallaEstatStandard(estatActual)
 }
 
 class InterfComunicacio <<boundary>> {
-  + accedirAIconaXat(idProposta: String)
-  + enviarMissatge(text: String)
+  + accedirAlconaXat(idProposta)
+  + enviarMissatge(text)
+  + enviarMissatgeResposta(textResposta)
   + actualitzarFinestraXatEnTempsReal()
 }
 
@@ -157,9 +163,10 @@ class InterfMaps <<boundary>> {
   + requestRutes(ubicacioActual, llistaComandesRaw)
   + requestCalcularRuta(ubicacioActual, idComanda)
   + consultarEstatTransit(ubicacioActual)
-  + proveirRutaOptima(ruta, temps)
-  + proveirIncidenciesTransit(incidencies)
+  + proveirRutaOptima(liniaNavegacio, tempsEstimat)
+  + proveirIncidenciesTransit(incidenciesODetectatTransit)
   + obtenirPosicioRepartidor(idRepartidor)
+  + proveirPosicioRepartidor(ubicacioRepartidor, tempsEstimat)
 }
 
 class InterfPagament <<boundary>> {
@@ -248,29 +255,30 @@ class GestorComandes <<control>> {
   + validarIGuardarValoracio(puntuacio, comentari)
   + procedirComanda()
   + seleccionarModalitat()
-  ' Mètodes afegits dels Diagrames de Seqüència de Repartiment:
+  ' Mètodes visuals de les captures:
   + inicialitzarConsulta()
   + ordenarPerProximitat()
-  + gestionarSeleccio(idComanda: String)
-  + obtenirDetallsComanda(idComanda: String)
-  + processarAcceptacio(idComanda: String)
+  + gestionarSeleccio(idComanda)
+  + obtenirDetallsComanda(idComanda)
+  + processarAcceptacio(idComanda)
   + actualitzarLlistaAutomàticament()
-  + inicialitzarConsultaRuta(idComanda: String)
+  + inicialitzarConsultaRuta(idComanda)
   + sol·licitarRecalculRuta()
-  + processarFinalitzacio(idComanda: String)
-  + actualitzarEstatRepartidor(estat: String)
-  + processarIntentFallit(idComanda: String)
-  + processarCancel·lacióForçaMajor(idComanda: String)
-  + iniciarSeguiment(idComanda: String)
+  + processarFinalitzacio(idComanda)
+  + actualitzarEstatRepartidor(estat)
+  + processarIntentFallit(idComanda)
+  + processarCancel·lacióForçaMajor(idComanda)
+  + iniciarSeguiment(idComanda)
   + demanarActualitzacioSeguiment()
-  + obtenirEstatActual(): EstatComanda
+  + obtenirEstatActual()
 }
 
 class GestorComunicacio <<control>> {
-  + inicialitzarCanalXat(idProposta: String)
-  + verificarEstatComanda(idProposta: String)
-  + processarNouMissatge(text: String, idReceptor: String)
-  + verificarEstatConnexio(idReceptor: String)
+  + inicialitzarCanalXat(idProposta)
+  + verificarEstatComanda(idProposta)
+  + processarNouMissatge(text, idReceptor)
+  + processarNouMissatge(textResposta, idComprador)
+  + verificarEstatConnexio(idReceptor)
 }
 
 class GestorCataleg <<control>> {
@@ -357,7 +365,7 @@ class DadesComprador <<entity>> {
 class DadesRepartidor <<entity>> {
   - vehicle : String
   - disponible : boolean
-  + actualitzarDisponibilitat(estat: boolean)
+  + actualitzarDisponibilitat(estat)
 }
 
 class DadesCuiner <<entity>> {
@@ -391,13 +399,13 @@ class Comanda <<entity>> {
   + setModalitat()
   + calcularPreuTotal()
   + actualitzarEstat(EstatComanda estatActualitzat)
-  ' Mètodes afegits del flux de seqüències:
-  + consultarComandesPendents(filtre: String): List
-  + refrescarComandes(): List
-  + llegirDetalls(): Comanda
-  + verificarEstat(): EstatComanda
-  + assignarRepartidor(idRepartidor: String)
-  + canviarEstat(nouEstat: String)
+  ' Mètodes detectats exactament a les teves seqüències:
+  + consultarComandesPendents(filtre)
+  + refrescarComandes()
+  + llegirDetalls()
+  + verificarEstat()
+  + assignarRepartidor(idRepartidor)
+  + canviarEstat(nouEstat)
 }
 
 class Valoracio <<entity>> {
@@ -413,8 +421,10 @@ class Xat <<entity>> {
   - data_inici : String
   - llistaMissatges : List<Missatge>
   + repondre()
-  + crearOObtenirCanalPrivat(idProposta: String): Xat
-  + crearMissatge(text: String, idProposta: String)
+  + crearOObtenirCanalPrivat(idProposta)
+  + canalLlest(llistaMissatgesPrevies)
+  + crearMissatge(text, idProposta)
+  + crearMissatge(textResposta, idProposta)
   + marcarComNoLlegit()
 }
 
@@ -450,8 +460,7 @@ class Ingredient <<entity>> {
   - opcional : boolean
 }
 
-' --- RELACIONS DE LES CAPES (BOUNDARY -> CONTROL -> ENTITY) ---
-
+' --- RELACIONS DE LES CAPES ---
 InterfUsuaris "1" -- "1" GestorUsuaris
 GestorUsuaris "1" -- "1..*" DadesUsuariRegistrat
 
@@ -468,16 +477,11 @@ GestorCataleg "1" -- "1..*" Plat
 InterfCuiner "1" -- "1" GestorCuiner
 GestorCuiner "1" -- "1..*" DadesCuiner
 
-' --- NOUS GESTORS I INTERFÍCIES (MAPS, PAGAMENT, IDENTITAT) ---
-
 InterfMaps "1" -- "1" GestorMaps
 InterfPagament "1" -- "1" GestorPagament
 
-' Connexions basades en els diagrames de seqüència de pagament i mapes rutes
 GestorComandes --> GestorMaps : demana càlcul de distància
 GestorComandes --> GestorPagament : demana processar transacció
-
-' Connexions per als nous gestors extrets dels diagrames de seqüència
 InterfUsuaris "1" --> "1" GestorOAuth : utilitza
 InterfUsuaris "1" --> "1" GestorConfiguracio : demana traduccions
 
@@ -487,31 +491,20 @@ DadesUsuariRegistrat <|-- DadesCuiner
 DadesUsuariRegistrat <|-- DadesRepartidor
 
 ' --- RELACIONS ENTRE ENTITATS ---
-
-' Comandes
 DadesComprador "1" --> "0..*" Comanda : realitza
 DadesCuiner "1" --> "0..*" Comanda : prepara
 DadesRepartidor "0..1" --> "0..*" Comanda : lliura
-
-' Composició de Comandes i Menús
 Comanda "0..*" --> "1..*" Menú : inclou
 Comanda --> EstatComanda : té estat
 Comanda --> ModalitatEntrega : s'entrega via
-
-' Catàleg (Menús, Plats i Ingredients)
 DadesCuiner "1" --> "0..*" Menú : ofereix
 DadesComprador --> Menú : proposa
 DadesCuiner --> Menú : consulta propostes
 Menú "1" o-- "1..*" Plat : conté
 Plat "1" o-- "1..*" Ingredient : té
-
-' Valoracions
 DadesComprador "1" --> "0..*" Valoracio : crea
 Valoracio "0..*" --> "1" DadesCuiner : puntua
-
-' Comunicació (Xat i Missatges)
 DadesComprador "1" -- "0..*" Xat
 DadesCuiner "1" -- "0..*" Xat
 Missatge "0..*" --* "1" Xat
-
 @enduml
