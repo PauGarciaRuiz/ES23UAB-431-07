@@ -1,7 +1,6 @@
 @startuml
 left to right direction
 
-' --- ENUMS ---
 enum EstatComanda {
   EN_PREPARACIO
   EN_CAMI
@@ -15,7 +14,6 @@ enum ModalitatEntrega {
   ENTREGA_CUINER
 }
 
-' --- CAPA BOUNDARY (INTERFÍCIES DE LÍMIT / SERVEIS EXTERNS) ---
 class InterfUsuaris <<boundary>> {
   + accedirPerfil()
   + mostrarFormulari(dadesActuals)
@@ -112,7 +110,6 @@ class InterfComandes <<boundary>> {
   + mostrarModalitat()
   + errorNoRepartidors()
   + errorNoAdreca()
-  ' Sincronitzats amb els teus diagrames visuals (imatges adjuntes):
   + accedirSeccioComandesPendents()
   + demanarUbicacioGPS()
   + mostrarLlistaOrdenada(llistaComandesFiltrada)
@@ -202,7 +199,6 @@ class InterfCuiner <<boundary>> {
   + clicar_finalitzar()
 }
 
-' --- CAPA CONTROL (GESTORS) ---
 class GestorUsuaris <<control>> {
   + obtenirDadesPerfil()
   + validarNovesDades(nom, pass, ubicacio)
@@ -227,7 +223,7 @@ class GestorUsuaris <<control>> {
 }
 
 class GestorComandes <<control>> {
-  + consultar_plats_desitjats()
+  + consulting_plats_desitjats()
   + mostrar_missatge_cap_plat()
   + mostrar_llista_plats()
   + afegir_plat_comanda(plat)
@@ -255,7 +251,6 @@ class GestorComandes <<control>> {
   + validarIGuardarValoracio(puntuacio, comentari)
   + procedirComanda()
   + seleccionarModalitat()
-  ' Mètodes visuals de les captures:
   + inicialitzarConsulta()
   + ordenarPerProximitat()
   + gestionarSeleccio(idComanda)
@@ -327,7 +322,6 @@ class GestorCuiner <<control>> {
   + confirma_anulacio(comanda)
 }
 
-' --- CAPA ENTITAT (CLASSES DE DOMINI) ---
 class DadesUsuariRegistrat <<entity>> {
   - idUsuari : String
   - nom : String
@@ -399,7 +393,6 @@ class Comanda <<entity>> {
   + setModalitat()
   + calcularPreuTotal()
   + actualitzarEstat(EstatComanda estatActualitzat)
-  ' Mètodes detectats exactament a les teves seqüències:
   + consultarComandesPendents(filtre)
   + refrescarComandes()
   + llegirDetalls()
@@ -460,7 +453,6 @@ class Ingredient <<entity>> {
   - opcional : boolean
 }
 
-' --- RELACIONS DE LES CAPES ---
 InterfUsuaris "1" -- "1" GestorUsuaris
 GestorUsuaris "1" -- "1..*" DadesUsuariRegistrat
 
@@ -485,19 +477,17 @@ GestorComandes --> GestorPagament : demana processar transacció
 InterfUsuaris "1" --> "1" GestorOAuth : utilitza
 InterfUsuaris "1" --> "1" GestorConfiguracio : demana traduccions
 
-' --- HERÈNCIA ENTITATS ---
 DadesUsuariRegistrat <|-- DadesComprador
 DadesUsuariRegistrat <|-- DadesCuiner
 DadesUsuariRegistrat <|-- DadesRepartidor
 
-' --- RELACIONS ENTRE ENTITATS ---
 DadesComprador "1" --> "0..*" Comanda : realitza
 DadesCuiner "1" --> "0..*" Comanda : prepara
 DadesRepartidor "0..1" --> "0..*" Comanda : lliura
 Comanda "0..*" --> "1..*" Menú : inclou
 Comanda --> EstatComanda : té estat
 Comanda --> ModalitatEntrega : s'entrega via
-DadesCuiner "1" --> "0..*" Menú : ofereix
+DadesCuiner "1" --> "0..*" Menú : offers
 DadesComprador --> Menú : proposa
 DadesCuiner --> Menú : consulta propostes
 Menú "1" o-- "1..*" Plat : conté
