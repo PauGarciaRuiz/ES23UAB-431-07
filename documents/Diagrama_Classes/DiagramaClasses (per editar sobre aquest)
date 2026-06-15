@@ -67,7 +67,7 @@ class InterfUsuaris <<boundary>> {
   + mostrarSubscripcioActiva()
 }
 
-class InterfComandes <<boundary>>{
+class InterfComandes <<boundary>> {
   + accedir_menu_desitjos()
   + obtenir_plats_desitjats()
   + acceptar_plat(plat)
@@ -112,9 +112,31 @@ class InterfComandes <<boundary>>{
   + mostrarModalitat()
   + errorNoRepartidors()
   + errorNoAdreca()
+  ' Mètodes afegits dels Diagrames de Seqüència de Repartiment:
+  + accedirSeccioComandesPendents()
+  + demanarUbicacioGPS(): String
+  + mostrarLlistaOrdenada(llistaComandesFiltrada)
+  + refrescarInterficie()
+  + confirmarAcceptacio(idComanda: String)
+  + retirarComandaDeLaLlista()
+  + premerVeureRuta(idComanda: String)
+  + mostrarInterficieMapa(dadesRutaOptima)
+  + actualitzarIndicacions(novaRutaRecalculada)
+  + refrescarMapaIndicacions()
+  + premerFinalitzarEntrega(idComanda: String)
+  + marcarIntentEntregaFallit(idComanda: String)
+  + marcarCancel·larEntrega(idComanda: String)
+  + seleccionarComandaActiva(idComanda: String)
+  + carregarMapaSeguiment(ubicacioRepartidor, tempsEstimat)
+  + actualitzarPosicioMapa(novaUbicacio, nouTempsEstimat)
+  + tancarSeguimentIMostrarConfirmacio()
 }
 
-class InterfComunicacio <<boundary>>
+class InterfComunicacio <<boundary>> {
+  + accedirAIconaXat(idProposta: String)
+  + enviarMissatge(text: String)
+  + actualitzarFinestraXatEnTempsReal()
+}
 
 class InterfCataleg <<boundary>> {
   + accedirCataleg()
@@ -132,6 +154,12 @@ class InterfMaps <<boundary>> {
   + validarUbicacio(ubicacio)
   + calcularDistancies(ubicacioUsuari, llistaUbicacions)
   + retornar_coords()
+  + requestRutes(ubicacioActual, llistaComandesRaw)
+  + requestCalcularRuta(ubicacioActual, idComanda)
+  + consultarEstatTransit(ubicacioActual)
+  + proveirRutaOptima(ruta, temps)
+  + proveirIncidenciesTransit(incidencies)
+  + obtenirPosicioRepartidor(idRepartidor)
 }
 
 class InterfPagament <<boundary>> {
@@ -191,7 +219,7 @@ class GestorUsuaris <<control>> {
   + pagarSubscripcio()
 }
 
-class GestorComandes <<control>>{
+class GestorComandes <<control>> {
   + consultar_plats_desitjats()
   + mostrar_missatge_cap_plat()
   + mostrar_llista_plats()
@@ -220,9 +248,30 @@ class GestorComandes <<control>>{
   + validarIGuardarValoracio(puntuacio, comentari)
   + procedirComanda()
   + seleccionarModalitat()
+  ' Mètodes afegits dels Diagrames de Seqüència de Repartiment:
+  + inicialitzarConsulta()
+  + ordenarPerProximitat()
+  + gestionarSeleccio(idComanda: String)
+  + obtenirDetallsComanda(idComanda: String)
+  + processarAcceptacio(idComanda: String)
+  + actualitzarLlistaAutomàticament()
+  + inicialitzarConsultaRuta(idComanda: String)
+  + sol·licitarRecalculRuta()
+  + processarFinalitzacio(idComanda: String)
+  + actualitzarEstatRepartidor(estat: String)
+  + processarIntentFallit(idComanda: String)
+  + processarCancel·lacióForçaMajor(idComanda: String)
+  + iniciarSeguiment(idComanda: String)
+  + demanarActualitzacioSeguiment()
+  + obtenirEstatActual(): EstatComanda
 }
 
-class GestorComunicacio <<control>>
+class GestorComunicacio <<control>> {
+  + inicialitzarCanalXat(idProposta: String)
+  + verificarEstatComanda(idProposta: String)
+  + processarNouMissatge(text: String, idReceptor: String)
+  + verificarEstatConnexio(idReceptor: String)
+}
 
 class GestorCataleg <<control>> {
   + obtenirCataleg()
@@ -241,9 +290,11 @@ class GestorMaps <<control>> {
   + solicitarDistancia(ubicacioUsuari, llistaUbicacions)
   + validar_adreça(adreça)
   + calcularDistancia(origen, desti)
+  + demanaCalculDistancia(ubicacioActual, idComanda)
+  + demanaCalculDistancia(idRepartidor)
 }
 
-class GestorPagament <<control>>{
+class GestorPagament <<control>> {
   + validar_pagament(metode_pagament)
   + gestionarPagament()
   + transaccioDenegada()
@@ -303,7 +354,11 @@ class DadesComprador <<entity>> {
   + consultarPunts()
 }
 
-class DadesRepartidor <<entity>>
+class DadesRepartidor <<entity>> {
+  - vehicle : String
+  - disponible : boolean
+  + actualitzarDisponibilitat(estat: boolean)
+}
 
 class DadesCuiner <<entity>> {
   - valoracioMitjana : double
@@ -313,7 +368,7 @@ class DadesCuiner <<entity>> {
   + retornar_estats()
 }
 
-class Comanda <<entity>>{
+class Comanda <<entity>> {
   - idComanda : String
   - dataComanda : Date
   - preuTotal : double
@@ -336,6 +391,13 @@ class Comanda <<entity>>{
   + setModalitat()
   + calcularPreuTotal()
   + actualitzarEstat(EstatComanda estatActualitzat)
+  ' Mètodes afegits del flux de seqüències:
+  + consultarComandesPendents(filtre: String): List
+  + refrescarComandes(): List
+  + llegirDetalls(): Comanda
+  + verificarEstat(): EstatComanda
+  + assignarRepartidor(idRepartidor: String)
+  + canviarEstat(nouEstat: String)
 }
 
 class Valoracio <<entity>> {
@@ -346,11 +408,14 @@ class Valoracio <<entity>> {
   + crearValoracio(puntuacio, comentari)
 }
 
-class Xat <<entity>>{
+class Xat <<entity>> {
   - id : String
   - data_inici : String
   - llistaMissatges : List<Missatge>
   + repondre()
+  + crearOObtenirCanalPrivat(idProposta: String): Xat
+  + crearMissatge(text: String, idProposta: String)
+  + marcarComNoLlegit()
 }
 
 class Missatge <<entity>> {
@@ -408,7 +473,7 @@ GestorCuiner "1" -- "1..*" DadesCuiner
 InterfMaps "1" -- "1" GestorMaps
 InterfPagament "1" -- "1" GestorPagament
 
-' Connexions basades en el diagrama de seqüència de pagament
+' Connexions basades en els diagrames de seqüència de pagament i mapes rutes
 GestorComandes --> GestorMaps : demana càlcul de distància
 GestorComandes --> GestorPagament : demana processar transacció
 
