@@ -4,6 +4,10 @@ boundary "Interfície Comandes"
 control "Gestor Comandes"
 entity Comanda
 entity DadesComprador
+control "Gestor Maps"
+control "Gestor Pagament"
+boundary "Interfície Maps"
+control "Interfície Pagament"
 actor "Google Maps" <<extern>>
 actor "PayPal / Banc" <<extern>>
 
@@ -20,10 +24,15 @@ Comanda --> "Gestor Comandes" : dades (productes, adreces)
 deactivate Comanda
 
 ' Càlcul de distància delegat a l'actor extern
-"Gestor Comandes" -> "Google Maps" : calcularDistancia(origen, desti)
-activate "Google Maps"
-"Google Maps" --> "Gestor Comandes" : distancia (km)
-deactivate "Google Maps"
+"Gestor Comandes" -> "Gestor Maps" : demanarDistancia(origen, desti)
+activate "Gestor Maps"
+"Gestor Maps" -> "Interfície Maps" : calcularDistancia(origen, desti)
+activate "Interfície Maps"
+"Google Maps" -> "Interfície Maps" : Distància()
+"Interfície Maps" --> "Gestor Maps" : return()
+deactivate "Interfície Maps"
+"Gestor Maps" --> "Gestor Comandes" : return ()
+deactivate "Gestor Maps"
 
 ' --- S2. PUNTS DE SUBSCRIPCIÓ ---
 opt S2 (Punts de subscripció)
@@ -47,16 +56,24 @@ Comprador -> "Interfície Comandes" : PagarComanda()
 "Interfície Comandes" -> "Gestor Comandes" : ProcessarPagament()
 activate "Gestor Comandes"
 
-"Gestor Comandes" -> "PayPal / Banc" : AutenticarPagament(import)
-activate "PayPal / Banc"
+' Càlcul de distància delegat a l'actor extern
+"Gestor Comandes" -> "Gestor Pagament" : GestionarPagament()
+activate "Gestor Pagament"
+"Gestor Pagament" -> "Interfície Pagament" : DemanarPagament()
+activate "Interfície Pagament"
+"PayPal / Banc" -> "Interfície Pagament" : DadesPagament()
+"Interfície Pagament" --> "Gestor Pagament" : return()
+deactivate "Interfície Pagament"
+"Gestor Pagament" --> "Gestor Comandes" : return ()
+deactivate "Gestor Maps"
 
 ' --- A1. ERROR EN EL PAGAMENT ---
 alt A1 (Error en el pagament)
-    "PayPal / Banc" --> "Gestor Comandes" : TransaccioDenegada()
+    "Gestor Pagament" --> "Gestor Comandes" : TransaccioDenegada()
     "Gestor Comandes" --> "Interfície Comandes" : ErrorPagament()
 else Pagament Correcte
-    "PayPal / Banc" --> "Gestor Comandes" : TransaccioExitosa()
-    deactivate "PayPal / Banc"
+    "Gestor Pagament" --> "Gestor Comandes" : TransaccioExitosa()
+    deactivate "Gestor Pagament"
 
     ' --- 6. CONFIRMACIÓ I FACTURA ---
     "Gestor Comandes" -> Comanda : actulitzarEstat(PAGADA)
