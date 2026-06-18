@@ -2,10 +2,28 @@
 actor Comprador
 boundary "Interfície Comandes"
 control "Gestor Comandes"
+control "Gestor Cataleg"
 entity Comanda
 entity Plat
+entity Cataleg
 
-' --- 1 i 2. AFEGIR PLATS AL CARRET ---
+' --- 1 i 2. AFEGIR PLATS AL CARRET (i navegar abans) ---
+Comprador -> "Interfície Comandes" : NavegarCataleg()
+activate "Interfície Comandes"
+"Interfície Comandes" -> "Gestor Comandes" : NavegarCataleg()
+activate "Gestor Comandes"
+"Gestor Comandes" -> "Gestor Cataleg" : ObtenirCataleg()
+activate "Gestor Cataleg"
+"Gestor Cataleg" -> "Cataleg" : ObtenirCataleg()
+activate "Cataleg"
+"Cataleg" -> "Gestor Cataleg" : InfoCataleg()
+deactivate "Cataleg"
+"Gestor Cataleg" -> "Gestor Comandes" : MostrarCataleg()
+deactivate "Gestor Cataleg"
+"Gestor Comandes" -> "Interfície Comandes" : MostrarCataleg()
+deactivate "Gestor Comandes"
+deactivate "Interfície Comandes"
+
 Comprador -> "Interfície Comandes" : AfegirPlatAlCarret()
 activate "Interfície Comandes"
 
