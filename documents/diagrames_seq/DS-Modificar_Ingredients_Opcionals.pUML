@@ -29,29 +29,46 @@ Comprador -> "Interfície Comanda" : AccedirCarret()
 
 "Gestor Comanda" -> Comanda : BuscarCarret()
 activate Comanda
-Comanda --> "Gestor Comanda" : Return
+Comanda --> "Gestor Comanda" : return()
 deactivate Comanda
 
 "Gestor Comanda" --> "Interfície Comanda" : MostrarCarret()
 
-' --- MODIFICAR INGREDIENTS ---
-Comprador -> "Interfície Comanda" : ModIngred()
+' --- DEMANAR MODIFICAR INGREDIENTS ---
+Comprador -> "Interfície Comanda" : DemanarModificarIngredients()
 
-"Interfície Comanda" -> "Gestor Comanda" : ModIngred()
+"Interfície Comanda" -> "Gestor Comanda" : ObtenirIngredientsOpcionals()
 
-"Gestor Comanda" -> Comanda : ModIngredPlat()
+"Gestor Comanda" -> Plat : ObtenirIngredients()
+activate Plat
 
-' --- A1: CANCEL·LACIÓ ---
-opt A1 (Si client surt)
-    Comprador -> "Interfície Comanda" : Sortir()
-end
-
-' --- A2: ERROR INGREDIENTS ---
-opt A2 (Si el Plat no té ingredients opcionals)
+' --- A2: ERROR INGREDIENTS vs CONTINUAR ---
+alt A2 (Si el Plat no té ingredients opcionals)
+    Plat --> "Gestor Comanda" : llistaBuida
     "Gestor Comanda" --> "Interfície Comanda" : Error_NO_Ing()
+else (Té ingredients opcionals)
+    Plat --> "Gestor Comanda" : llistaIngredients
+    deactivate Plat
+    
+    "Gestor Comanda" --> "Interfície Comanda" : MostrarIngredients()
+    
+    ' --- A1: CANCEL·LACIÓ vs MODIFICACIÓ ---
+    alt A1 (Si client surt)
+        Comprador -> "Interfície Comanda" : Sortir()
+    else (Client confirma modificació)
+        Comprador -> "Interfície Comanda" : ModIngred(nousIngredients)
+        
+        "Interfície Comanda" -> "Gestor Comanda" : ModIngred(nousIngredients)
+        
+        "Gestor Comanda" -> Comanda : ModificarIngredientsPlat()
+        activate Comanda
+        Comanda --> "Gestor Comanda" : return()
+        deactivate Comanda
+        
+        "Gestor Comanda" --> "Interfície Comanda" : MostrarCarretActualitzat()
+    end
 end
 
-deactivate Plat
 deactivate "Gestor Comanda"
 deactivate "Interfície Comanda"
 
